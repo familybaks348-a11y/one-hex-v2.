@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ONE HEX V2</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#080c15;color:#eaf2ff;font-family:Arial,sans-serif}
+button,input{font:inherit}
+button{cursor:pointer}
+.app{max-width:1050px;margin:18px auto;background:#080d17;border:2px solid #2879ff;border-radius:20px;box-shadow:0 0 28px #146aff40;overflow:hidden}
+header{height:94px;display:flex;align-items:center;justify-content:space-between;padding:16px 22px;border-bottom:1px solid #25344d}
+.logo{font-size:clamp(23px,5vw,43px);font-weight:900;letter-spacing:1px}
+.logo span{color:#287dff}
+.sub{font-size:10px;letter-spacing:5px;color:#667b9d;margin-top:4px}
+.headbuttons{display:flex;gap:10px}
+.headbuttons button{width:52px;height:52px;border-radius:13px;border:2px solid #2879ff;background:#111b2d;color:white;font-size:24px}
+.headbuttons .close{background:#561b29;border-color:#ff344d}
+.layout{display:grid;grid-template-columns:220px 1fr;gap:16px;padding:14px}
+nav{display:flex;flex-direction:column;gap:8px}
+nav button{border:1px solid transparent;background:#111824;color:#dce6f7;text-align:left;padding:15px 12px;border-radius:12px;font-size:15px}
+nav button.active{background:#112d58;border-color:#2879ff;box-shadow:inset 4px 0 #2879ff;color:#fff}
+main{min-width:0}
+.welcome,.card{background:linear-gradient(130deg,#111b2b,#090e18);border:1px solid #263650;border-radius:14px;padding:18px;margin-bottom:15px}
+.welcome h2{margin:0 0 8px;font-size:22px}
+.blue{color:#398aff}
+.muted{color:#94a5bf;font-size:14px;line-height:1.5}
+.columns{display:grid;grid-template-columns:1.25fr .9fr;gap:14px}
+h3{color:#398aff;font-size:17px;margin:0 0 15px}
+.item{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px;margin:8px 0;background:#121b2a;border:1px solid #25344c;border-radius:11px;font-size:14px}
+.switch{appearance:none;width:48px;height:27px;flex-shrink:0;background:#303c50;border-radius:30px;position:relative;cursor:pointer}
+.switch:before{content:"";position:absolute;width:19px;height:19px;background:white;top:4px;left:4px;border-radius:50%;transition:.2s}
+.switch:checked{background:#327cff}
+.switch:checked:before{left:25px}
+input[type=range]{width:100%;accent-color:#398aff}
+input[type=color]{width:48px;height:48px;border:0;background:none;cursor:pointer}
+.btn{padding:12px 16px;border:1px solid #478aff;background:#2569ed;color:white;border-radius:9px;font-weight:bold}
+.btn.secondary{background:#15223b}
+.btn.danger{background:#601c2b;border-color:#f43b55}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+.actions .btn{flex:1}
+.section{display:none}
+.section.active{display:block}
+.info{color:#8da2c2;font-size:12px;line-height:1.6}
+footer{text-align:center;padding:0 10px 17px;color:#627694;font-size:10px;letter-spacing:2px}
+@media(max-width:650px){
+ .app{margin:6px;border-radius:14px}
+ header{height:78px;padding:12px}
+ .sub{letter-spacing:2px;font-size:8px}
+ .headbuttons{gap:5px}
+ .headbuttons button{width:35px;height:38px;font-size:18px}
+ .layout{grid-template-columns:94px minmax(0,1fr);gap:9px;padding:9px}
+ nav button{padding:12px 6px;font-size:11px;text-align:center}
+ .columns{grid-template-columns:1fr}
+ .welcome,.card{padding:12px}
+ .welcome h2{font-size:17px}
+ .muted{font-size:12px}
+ .item{padding:10px 7px;font-size:12px}
+ h3{font-size:15px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+ <div>
+  <div class="logo">ONE <span>HEX V2</span></div>
+  <div class="sub">MOBILE CONTROL HUB</div>
+ </div>
+ <div class="headbuttons">
+  <button id="min" title="Свернуть">−</button>
+  <button id="expand" title="Компактный вид">□</button>
+  <button class="close" id="close" title="Закрыть">×</button>
+ </div>
+</header>
+
+<div class="layout" id="layout">
+<nav>
+ <button class="active" data-tab="home">⌂　Главная</button>
+ <button data-tab="visual">◉　Визуал</button>
+ <button data-tab="player">♟　Игрок</button>
+ <button data-tab="world">◎　Мир</button>
+ <button data-tab="settings">⚙　Настройки</button>
+ <button data-tab="configs">▰　Конфиги</button>
+ <button data-tab="info">ⓘ　Информация</button>
+</nav>
+
+<main>
+<section class="section active" id="home">
+ <div class="welcome">
+  <h2>Добро пожаловать в <span class="blue">ONE HEX V2</span></h2>
+  <div class="muted">Удобное и стильное меню для комфортной игры.</div>
+ </div>
+ <div class="columns">
+  <div class="card">
+   <h3>Быстрые настройки</h3>
+   <div class="item">☾　Night Mode<input class="switch" type="checkbox" checked data-setting="night"></div>
+   <div class="item">▣　Показ FPS<input class="switch" type="checkbox" checked data-setting="fps"></div>
+   <div class="item">✦　Плавная анимация<input class="switch" type="checkbox" checked data-setting="animation"></div>
+  </div>
+  <div class="card">
+   <h3>RGB эффект</h3>
+   <div style="display:flex;align-items:center;gap:12px">
+    <input id="color" type="color" value="#2879ff">
+    <span class="muted">Цвет интерфейса</span>
+   </div>
+   <p class="muted">Скорость RGB <span id="speedVal">5</span></p>
+   <input id="speed" type="range" min="1" max="10" value="5">
+  </div>
+ </div>
+ <div class="card">
+  <h3>Конфиги</h3>
+  <div class="actions">
+   <button class="btn" onclick="saveConfig()">Сохранить конфиг</button>
+   <button class="btn secondary" onclick="loadConfig()">Загрузить конфиг</button>
+  </div>
+  <p id="configStatus" class="info">Настройки можно сохранить в этом браузере.</p>
+ </div>
+</section>
+
+<section class="section" id="visual">
+ <div class="card"><h3>Визуал</h3>
+  <div class="item">Тёмная тема<input class="switch" type="checkbox" checked data-setting="visualNight"></div>
+  <div class="item">Подсветка рамки<input class="switch" type="checkbox" checked data-setting="glow"></div>
+  <div class="item">Компактные панели<input class="switch" type="checkbox" data-setting="compact"></div>
+  <p class="info">Настройки оформления интерфейса.</p>
+ </div>
+</section>
+
+<section class="section" id="player">
+ <div class="card"><h3>Игрок</h3>
+  <div class="item">Имя профиля <input id="nickname" value="ONE HEX" maxlength="24" style="width:50%;min-width:0;background:#0b1220;color:white;border:1px solid #344767;border-radius:7px;padding:8px"></div>
+  <div class="item">Отображать профиль<input class="switch" type="checkbox" checked data-setting="profile"></div>
+  <p class="info">Здесь находятся локальные параметры профиля меню.</p>
+ </div>
+</section>
+
+<section class="section" id="world">
+ <div class="card"><h3>Мир</h3>
+  <div class="item">Фон с градиентом<input class="switch" type="checkbox" checked data-setting="gradient"></div>
+  <div class="item">Декоративные эффекты<input class="switch" type="checkbox" checked data-setting="effects"></div>
+  <p class="info">Визуальные параметры страницы. Они не меняют игровой мир.</p>
+ </div>
+</section>
+
+<section class="section" id="settings">
+ <div class="card"><h3>Настройки</h3>
+  <div class="item">Звуковые уведомления<input class="switch" type="checkbox" data-setting="sound"></div>
+  <div class="item">Автосохранение настроек<input class="switch" type="checkbox" checked data-setting="autosave"></div>
+  <button class="btn" onclick="saveConfig()">Применить настройки</button>
+ </div>
+</section>
+
+<section class="section" id="configs">
+ <div class="card"><h3>Конфиги</h3>
+  <p class="muted">Сохрани текущие переключатели и цвет интерфейса.</p>
+  <div class="actions">
+   <button class="btn" onclick="saveConfig()">Сохранить</button>
+   <button class="btn secondary" onclick="loadConfig()">Загрузить</button>
+   <button class="btn secondary" onclick="exportConfig()">Экспорт JSON</button>
+  </div>
+  <p id="configStatus2" class="info"></p>
+  <input type="file" id="file" accept=".json,application/json" hidden>
+  <button class="btn secondary" onclick="document.getElementById('file').click()">Импорт JSON</button>
+ </div>
+</section>
+
+<section class="section" id="info">
+ <div class="card"><h3>Информация</h3>
+  <p class="logo">ONE <span>HEX V2</span></p>
+  <p class="muted">Версия 2.0</p>
+  <p class="info">Персональный веб-интерфейс. Параметры и конфиги работают в браузере. Интеграции с игрой нет.</p>
+ </div>
+</section>
+</main>
+</div>
+<footer>ONE HEX V2 · PERSONAL INTERFACE</footer>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+document.querySelectorAll('nav button').forEach(btn=>{
+ btn.addEventListener('click',()=>{
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  btn.classList.add('active');
+  $(btn.dataset.tab).classList.add('active');
+ });
+});
+$('color').addEventListener('input',e=>{
+ document.documentElement.style.setProperty('--accent',e.target.value);
+ document.querySelectorAll('.app').forEach(el=>{
+  el.style.borderColor=e.target.value;
+  el.style.boxShadow='0 0 28px '+e.target.value+'40';
+ });
+});
+$('speed').addEventListener('input',e=>$('speedVal').textContent=e.target.value);
+$('min').onclick=()=>{$('layout').hidden=!$('layout').hidden};
+$('expand').onclick=()=>{$('layout').style.gridTemplateColumns=$('layout').style.gridTemplateColumns?'':'1fr'};
+$('close').onclick=()=>{if(confirm('Скрыть меню ONE HEX?'))$('layout').hidden=true};
+
+function collect(){
+ const settings={};
+ document.querySelectorAll('[data-setting]').forEach(el=>settings[el.dataset.setting]=el.checked);
+ return {settings,color:$('color').value,speed:$('speed').value,nickname:$('nickname').value};
+}
+function apply(data){
+ if(!data)return;
+ document.querySelectorAll('[data-setting]').forEach(el=>{
+  if(data.settings&&el.dataset.setting in data.settings)el.checked=data.settings[el.dataset.setting];
+ });
+ if(data.color)$('color').value=data.color;
+ if(data.speed){$('speed').value=data.speed;$('speedVal').textContent=data.speed}
+ if(data.nickname)$('nickname').value=data.nickname;
+ $('color').dispatchEvent(new Event('input'));
+}
+function saveConfig(){
+ try{localStorage.setItem('onehex-config',JSON.stringify(collect()));
+ $('configStatus').textContent='Конфиг сохранён!';
+ if($('configStatus2'))$('configStatus2').textContent='Конфиг сохранён!';
+ }catch(e){alert('Не удалось сохранить конфиг в браузере.')}
+}
+function loadConfig(){
+ try{
+ const data=localStorage.getItem('onehex-config');
+ if(!data){alert('Сначала сохрани конфиг.');return}
+ apply(JSON.parse(data));
+ $('configStatus').textContent='Конфиг загружен!';
+ if($('configStatus2'))$('configStatus2').textContent='Конфиг загружен!';
+ }catch(e){alert('Ошибка загрузки конфига.')}
+}
+function exportConfig(){
+ const blob=new Blob([JSON.stringify(collect(),null,2)],{type:'application/json'});
+ const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+ a.download='one-hex-config.json';a.click();URL.revokeObjectURL(a.href);
+}
+$('file').addEventListener('change',async e=>{
+ const file=e.target.files[0];if(!file)return;
+ try{apply(JSON.parse(await file.text()));saveConfig();}
+ catch(err){alert('Неверный JSON-файл.')}
+ e.target.value='';
+});
+</script>
+</body>
+</html>
